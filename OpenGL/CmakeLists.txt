@@ -1,0 +1,46 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(OpenGLWindow VERSION 1.0.0 LANGUAGES CXX C)
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 源文件列表
+file(GLOB_RECURSE SOURCES_FILES
+    "src/*.cpp"
+    "src/*.c"
+)
+
+add_executable(${PROJECT_NAME} ${SOURCES_FILES})
+# 目标编译时的包含目录
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/include/GLFW
+    ${PROJECT_SOURCE_DIR}/include/glm
+    ${PROJECT_SOURCE_DIR}/include/Imgui
+    ${PROJECT_SOURCE_DIR}/include/KHR
+    ${PROJECT_SOURCE_DIR}/include/Mylib
+    ${PROJECT_SOURCE_DIR}/include/spdlog
+    ${PROJECT_SOURCE_DIR}/include/assimp
+)
+
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/lib)
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+    glfw3
+    glfw3_mt
+    assimp-vc143-mt
+    glfw3dll
+)
+
+if(MSVC)
+    # 强制设置 /utf-8（覆盖默认选项）
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /utf-8")
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/output"
+)
