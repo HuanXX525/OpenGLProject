@@ -12,3 +12,6 @@ _deps
 CMakeUserPresets.json
 build
 output
+.vscode/c_cpp_properties.json
+
+.vscode/settings.json
