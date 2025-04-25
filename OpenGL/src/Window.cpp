@@ -24,7 +24,9 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // 3. 创建窗口
-    GLFWwindow *window = glfwCreateWindow(800, 600, "My Window", NULL, NULL);
+    int cx = GetSystemMetrics(SM_CXFULLSCREEN);
+    int cy = GetSystemMetrics(SM_CYFULLSCREEN);
+    GLFWwindow *window = glfwCreateWindow(static_cast<int>(cx * 0.9), static_cast<int>(cy * 0.9), "My Window", NULL, NULL);
     if (!window)
     {
         glfwTerminate(); // 窗口创建失败
@@ -127,6 +129,7 @@ int main()
         window_flags |= ImGuiWindowFlags_NoCollapse;
         if (ImGui::Begin("My Window", NULL, window_flags))
         {
+            ImGui::SetWindowFontScale(cx/800*1.0f);
             ImGui::SeparatorText("Transform");
             ImGui::DragFloat3("Position", Position, 0.01f, -1e10, 1e10, "%.2f");
             ImGui::DragFloat3("Rotation", Rotation, 0.1f, -1e10, 1e10, "%.2f");
@@ -177,8 +180,8 @@ int main()
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-    ScreenHeight = height;
-    ScreenWidth = width;
+    ScreenHeight = static_cast<float>(height);
+    ScreenWidth = static_cast<float>(width);
 
     glViewport(0, 0, width, height);
 } // 回调函数窗口大小（帧缓冲）改变
