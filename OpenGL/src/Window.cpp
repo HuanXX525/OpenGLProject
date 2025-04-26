@@ -180,8 +180,13 @@ int main()
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
+<<<<<<< Updated upstream
     ScreenHeight = static_cast<float>(height);
     ScreenWidth = static_cast<float>(width);
 
+=======
+    ScreenHeight = (float)height;
+    ScreenWidth = (float)width;
+>>>>>>> Stashed changes
     glViewport(0, 0, width, height);
 } // 回调函数窗口大小（帧缓冲）改变
