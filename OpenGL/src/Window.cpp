@@ -109,8 +109,8 @@ int main()
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    // 着色器加载    
-    Shader shader = Shader("shader/simple.vert", "shader/simple.frag");
+    // 着色器加载
+    Shader shader = Shader("shader/vertexShader/main.vert", "shader/fragmentShader/main.frag");
     // Imgui 变量
     float Position[3] = {0.0f, 0.0f, 0.0f};
     float Rotation[3] = {0.0f, 0.0f, 0.0f};
