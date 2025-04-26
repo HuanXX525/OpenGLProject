@@ -1,8 +1,8 @@
 #ifndef DELUGE_MAIN
 #define DELUGE_MAIN
-namespace DELUGE_WINDOWS
+namespace deluge_windows
 {
-    namespace DELUGE_MAIN
+    namespace deluge_main
     {
         class Main
         {
@@ -12,6 +12,6 @@ namespace DELUGE_WINDOWS
             Main(/* args */);
             ~Main();
         };
-    } // namespace DELUGE_MAIN
-}// namespace DELUGE_WINDOWS
+    } // namespace deluge_main
+}// namespace deluge_windows
 #endif

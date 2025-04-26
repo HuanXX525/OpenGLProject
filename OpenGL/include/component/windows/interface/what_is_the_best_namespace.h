@@ -1,8 +1,19 @@
 #include <component/windows/main/main.h>
 #include <component/windows/control/control.h>
-namespace DELUGE_WINDOWS
+#ifndef DELUGE_WHAT_IS_THE_BEST_NAMESPACE
+#define DELUGE_WHAT_IS_THE_BEST_NAMESPACE
+namespace deluge_windows
 {
-    namespace DELUGE_WHAT_IS_THE_BEST_NAMESPACE
+    namespace what_is_the_best_namespace
     {
-    } // namespace DELUGE_WHAT_IS_THE_BEST_NAMESPACE
-} // namespace DELUGE_WHAT_IS_THE_BEST_NAMESPACE
+        class WhatIsTheBestNamespace
+        {
+        private:
+            /* data */
+        public:
+            WhatIsTheBestNamespace(/* args */);
+            ~WhatIsTheBestNamespace();
+        };
+    } // namespace what_is_the_best_namespace
+} // namespace what_is_the_best_namespace
+#endif

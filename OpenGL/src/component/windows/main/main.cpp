@@ -1,7 +1,7 @@
 #include <component/windows/main/main.h>
-namespace DELUGE_WINDOWS
+namespace deluge_windows
 {
-    namespace DELUGE_MAIN
+    namespace deluge_main
     {
         Main::Main(/* args */)
         {
@@ -10,5 +10,5 @@ namespace DELUGE_WINDOWS
         Main::~Main()
         {
         }
-    } // namespace DELUGE_MAIN
-}// namespace DELUGE_WINDOWS
+    } // namespace deluge_main
+}// namespace deluge_windows
