@@ -44,3 +44,15 @@ endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/output"
 )
+
+# 复制所需文件
+add_custom_command(
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${PROJECT_NAME}>/shader"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory # shader
+        "${PROJECT_SOURCE_DIR}/src/component/shader"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/shader"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory # DLL
+        "${PROJECT_SOURCE_DIR}/../Resource/DLL"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+)
