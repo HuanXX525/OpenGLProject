@@ -1,3 +1,4 @@
+#pragma once
 #ifndef DELUGE_CONTROL
 #define DELUGE_CONTROL
 namespace deluge_windows

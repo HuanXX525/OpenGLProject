@@ -6,10 +6,8 @@
 #include <imgui_impl_opengl3.h>
 #include <stb_image.h>
 #include <spdlog/spdlog.h>
+#include <component/windows/interface/windows.h>
 
-void framebuffer_size_callback(GLFWwindow *windwow, int width, int height); // 处理窗口大小变化
-float ScreenWidth = 800.0f;
-float ScreenHeight = 600.0f;
 int main()
 {
     // 1. 初始化 GLFW
@@ -24,9 +22,8 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // 3. 创建窗口
-    int cx = GetSystemMetrics(SM_CXFULLSCREEN);
-    int cy = GetSystemMetrics(SM_CYFULLSCREEN);
-    GLFWwindow *window = glfwCreateWindow(static_cast<int>(cx * 0.9), static_cast<int>(cy * 0.9), "My Window", NULL, NULL);
+    std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows);
+    GLFWwindow* window = delugeWindows->createWindows("title")->glfwWindow;
     if (!window)
     {
         glfwTerminate(); // 窗口创建失败
@@ -129,7 +126,7 @@ int main()
         window_flags |= ImGuiWindowFlags_NoCollapse;
         if (ImGui::Begin("My Window", NULL, window_flags))
         {
-            ImGui::SetWindowFontScale(cx/800*1.0f);
+            ImGui::SetWindowFontScale(delugeWindows->width / delugeWindows->screenWidth *1.0f);
             ImGui::SeparatorText("Transform");
             ImGui::DragFloat3("Position", Position, 0.01f, -1e10, 1e10, "%.2f");
             ImGui::DragFloat3("Rotation", Rotation, 0.1f, -1e10, 1e10, "%.2f");
@@ -152,7 +149,7 @@ int main()
         model = glm::scale(model, glm::vec3(Scale[0], Scale[1], Scale[2]));
         // 设置投影矩阵
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); // 观察矩阵
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), ScreenWidth / ScreenHeight, 1.0f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), delugeWindows->screenWidth / delugeWindows->screenHeight, 1.0f, 100.0f);
         // 传递矩阵到着色器
         unsigned int modelLOC = glGetUniformLocation(shader.program, "model");
         unsigned int viewLOC = glGetUniformLocation(shader.program, "view");
@@ -178,10 +175,3 @@ int main()
     return 0;
 }
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-    ScreenHeight = static_cast<float>(height);
-    ScreenWidth = static_cast<float>(width);
-
-    glViewport(0, 0, width, height);
-} // 回调函数窗口大小（帧缓冲）改变

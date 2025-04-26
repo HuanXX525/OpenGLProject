@@ -1,3 +1,4 @@
+#pragma once
 #ifndef DELUGE_FILE
 #define DELUGE_FILE
 namespace deluge_read_file
