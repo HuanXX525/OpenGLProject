@@ -10,29 +10,12 @@
 
 int main()
 {
-    // 1. 初始化 GLFW
-    if (!glfwInit())
-    {
-        return -1; // 初始化失败
-    }
-
-    // 2. 配置 GLFW（可选）
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // 3. 创建窗口
-    std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows);
+    std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows());
     GLFWwindow* window = delugeWindows->createWindows("title")->glfwWindow;
-    if (!window)
-    {
-        glfwTerminate(); // 窗口创建失败
+    if((*(delugeWindows->returnMain)) == -1){
         return -1;
     }
-
-    // 4. 设置当前上下文
-    glfwMakeContextCurrent(window);
-
+    
     // 5. 初始化 GLAD（如果是用 GLAD 加载 OpenGL）
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -172,6 +155,7 @@ int main()
 
     // 7. 清理资源
     glfwTerminate();
+    window = nullptr;
     return 0;
 }
 

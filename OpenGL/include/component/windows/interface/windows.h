@@ -13,12 +13,15 @@ namespace deluge_windows
         private:
             /* data */
             char* title;
+            Windows* initGlslVersion();
+            Windows* makeContextCurrent();
         public:
             int width;
             int height;
             static float screenWidth;
             static float screenHeight;
             GLFWwindow* glfwWindow;
+            int* returnMain;
             Windows(/* args */);
             ~Windows();
             Windows* createWindows(char* title);
