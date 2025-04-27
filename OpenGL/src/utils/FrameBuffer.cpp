@@ -1,6 +1,6 @@
 #include<glad.h>
 #include<iostream>
-#include<mylib/FrameBuffer.h>
+#include<utils/FrameBuffer.h>
 #include<spdlog/spdlog.h>
 FrameBuffer::FrameBuffer(uint32_t width, uint32_t height) :width(width), height(height) {
 	Invaidate();

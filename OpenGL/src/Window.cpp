@@ -1,56 +1,22 @@
 #include <glad.h>
 #include <GLFW/glfw3.h>
-#include <Mylib/shader.h>
+#include <utils/shader.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <stb_image.h>
 #include <spdlog/spdlog.h>
-#include <component/windows/interface/windows.h>
+#include <utils/init.h>
+
+using namespace utils;
+
+const float windowWidth = 800.0f;
+const float windowHeight = 600.0f;
 
 int main()
 {
-    // 1. 初始化 GLFW
-    if (!glfwInit())
-    {
-        return -1; // 初始化失败
-    }
-
-    // 2. 配置 GLFW（可选）
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // 3. 创建窗口
-    std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows);
-    GLFWwindow* window = delugeWindows->createWindows("title")->glfwWindow;
-    if (!window)
-    {
-        glfwTerminate(); // 窗口创建失败
-        return -1;
-    }
-
-    // 4. 设置当前上下文
-    glfwMakeContextCurrent(window);
-
-    // 5. 初始化 GLAD（如果是用 GLAD 加载 OpenGL）
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        glfwTerminate();
-        return -1;
-    }
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
-
-    // 设置 ImGui 样式（可选）
-    ImGui::StyleColorsDark();
-
-    // 绑定 GLFW 和 OpenGL
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 330");
+    Window Mainwindow(windowWidth, windowHeight, "My Window"); // 创建窗口
+    const float imGuiFontScale = Mainwindow.screenWidth / (1920 / 2);
     // 正方形
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -113,7 +79,7 @@ int main()
     float Rotation[3] = {0.0f, 0.0f, 0.0f};
     float Scale[3] = {1.0f, 1.0f, 1.0f};
     // 6. 主循环
-    while (!glfwWindowShouldClose(window)){
+    while (!glfwWindowShouldClose(Mainwindow.window)){
         glfwPollEvents();
 
         // 开始 ImGui 帧
@@ -126,7 +92,7 @@ int main()
         window_flags |= ImGuiWindowFlags_NoCollapse;
         if (ImGui::Begin("My Window", NULL, window_flags))
         {
-            ImGui::SetWindowFontScale(delugeWindows->width / delugeWindows->screenWidth *1.0f);
+            ImGui::SetWindowFontScale(imGuiFontScale);
             ImGui::SeparatorText("Transform");
             ImGui::DragFloat3("Position", Position, 0.01f, -1e10, 1e10, "%.2f");
             ImGui::DragFloat3("Rotation", Rotation, 0.1f, -1e10, 1e10, "%.2f");
@@ -149,7 +115,7 @@ int main()
         model = glm::scale(model, glm::vec3(Scale[0], Scale[1], Scale[2]));
         // 设置投影矩阵
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); // 观察矩阵
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), delugeWindows->screenWidth / delugeWindows->screenHeight, 1.0f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), Mainwindow.windowWidth / Mainwindow.windowHeight, 1.0f, 100.0f);
         // 传递矩阵到着色器
         unsigned int modelLOC = glGetUniformLocation(shader.program, "model");
         unsigned int viewLOC = glGetUniformLocation(shader.program, "view");
@@ -167,7 +133,7 @@ int main()
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         glfwPollEvents();
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(Mainwindow.window);
     }
 
     // 7. 清理资源

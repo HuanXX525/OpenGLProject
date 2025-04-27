@@ -1,4 +1,4 @@
-#include <mylib/shader.h>
+#include <utils/shader.h>
 #include <glad.h>
 #include <fstream>
 #include <sstream>
@@ -6,6 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+using namespace utils;
 
 Shader::Shader(const char *vertexShaderPath, const char *fragmentShaderPath)
 { // 编译链接着色器并且删除着色器
@@ -65,8 +67,11 @@ Shader::Shader(const char *vertexShaderPath, const char *fragmentShaderPath)
     glDeleteShader(fragment);
 }
 
-void Shader::Use()
+void utils::Shader::Use()
 {
+    enableDeepTest?
+        glEnable(GL_DEPTH_TEST) :
+        glDisable(GL_DEPTH_TEST);
     glUseProgram(program);
 }
 
@@ -87,4 +92,9 @@ void Shader::SetVec3(const char *name, float value1, float value2, float value3)
 
 void Shader::SetVec3(const char *name, glm::vec3 vec3){
     glUniform3f(glGetUniformLocation(program, name), vec3.x, vec3.y, vec3.z);
+}
+
+void utils::Shader::SetDeepTest(bool enableDeepTest)
+{
+    this->enableDeepTest = enableDeepTest;
 }
