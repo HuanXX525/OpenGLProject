@@ -20,7 +20,7 @@ target_include_directories(${PROJECT_NAME}
     ${PROJECT_SOURCE_DIR}/include/glm
     ${PROJECT_SOURCE_DIR}/include/Imgui
     ${PROJECT_SOURCE_DIR}/include/KHR
-    ${PROJECT_SOURCE_DIR}/include/Mylib
+    ${PROJECT_SOURCE_DIR}/include/utils
     ${PROJECT_SOURCE_DIR}/include/spdlog
     ${PROJECT_SOURCE_DIR}/include/assimp
 )
