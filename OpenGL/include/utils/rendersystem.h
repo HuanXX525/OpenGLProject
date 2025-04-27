@@ -3,8 +3,8 @@
 #define MYLIB_RENDERSYSTEM_H
 #include <iostream>
 #include <imgui/imgui.h>
-#include <mylib/top.h>
-#include <mylib/FrameBuffer.h>
+#include <utils/top.h>
+#include <utils/FrameBuffer.h>
 
 class RenderWindow : public Windows {
 private:
