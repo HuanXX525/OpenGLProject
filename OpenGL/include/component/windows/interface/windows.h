@@ -32,6 +32,9 @@ namespace deluge_windows
             ~Windows();
             Windows* createWindows(char* title);
             Windows* redrawWindow(int width,int height);
+            Windows* initGlad();
+            Windows* initImgui();
+            float imGuiFontScale();
         };
     } // namespace deluge_windows_windows
 } // namespace deluge_windows

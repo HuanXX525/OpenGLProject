@@ -7,30 +7,6 @@ namespace deluge_windows
 {
     namespace deluge_windows_windows
     {
-    //     std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows());
-    // GLFWwindow* window = delugeWindows->createWindows("title")->glfwWindow;
-    // if((*(delugeWindows->returnMain)) == -1){
-    //     return -1;
-    // }
-    
-    // // 5. 初始化 GLAD（如果是用 GLAD 加载 OpenGL）
-    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    // {
-    //     glfwTerminate();
-    //     return -1;
-    // }
-
-    // IMGUI_CHECKVERSION();
-    // ImGui::CreateContext();
-    // ImGuiIO &io = ImGui::GetIO();
-    // (void)io;
-
-    // // 设置 ImGui 样式（可选）
-    // ImGui::StyleColorsDark();
-
-    // // 绑定 GLFW 和 OpenGL
-    // ImGui_ImplGlfw_InitForOpenGL(window, true);
-    // ImGui_ImplOpenGL3_Init("#version 330");
         Windows::Windows(){
             deluge_control::Control control;
             int test = control.Init();
@@ -61,6 +37,8 @@ namespace deluge_windows
             }
             this->initGlslVersion();
             this->makeContextCurrent();
+            this->initGlad();
+            this->initImgui();
             return this;
         }
         Windows* Windows::initGlslVersion(){
@@ -90,6 +68,39 @@ namespace deluge_windows
             // glViewport(0, 0, width, height);
             return this;
         }
+        Windows* Windows::initGlad(){
+            if(*(this->returnMain) == -1){
+                return this;
+            }
+            // 5. 初始化 GLAD（如果是用 GLAD 加载 OpenGL）
+            if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+            {
+                glfwTerminate();
+                this->returnMain = new int(-1);
+                return this;
+            }
+            return this;
+        }
+        Windows* Windows::initImgui(){
+            if(*(this->returnMain) == -1){
+                return this;
+            }
+            IMGUI_CHECKVERSION();
+            ImGui::CreateContext();
+            ImGuiIO &io = ImGui::GetIO();
+            (void)io;
+
+            // 设置 ImGui 样式（可选）
+            ImGui::StyleColorsDark();
+
+            // 绑定 GLFW 和 OpenGL
+            ImGui_ImplGlfw_InitForOpenGL(this->glfwWindow, true);
+            ImGui_ImplOpenGL3_Init("#version 330");
+            return this;
+        }
+        float Windows::imGuiFontScale(){
+            return this->screenWidth / (1920 / 2);
+        }
         float Windows::screenWidth = 880.0f;
         float Windows::screenHeight = 660.0f;
     } // namespace deluge_windows_windows
@@ -99,6 +110,8 @@ namespace huanxx_windows
 {
     namespace huanxx_windows_windows
     {
+        // huanxx_windows::huanxx_windows_windows::Window Mainwindow(windowWidth, windowHeight, "My Window"); // 创建窗口
+        // const float imGuiFontScale = Mainwindow.screenWidth / (1920 / 2);
         Window::Window(int width, int height, const char *windowTitle)
         {
             #ifdef _WIN32

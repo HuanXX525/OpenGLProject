@@ -9,13 +9,16 @@
 #include <component/windows/interface/windows.h>
 
 
-const float windowWidth = 800.0f;
-const float windowHeight = 600.0f;
+// const float windowWidth = 800.0f;
+// const float windowHeight = 600.0f;
 int main()
 {
     
-    huanxx_windows::huanxx_windows_windows::Window Mainwindow(windowWidth, windowHeight, "My Window"); // 创建窗口
-    const float imGuiFontScale = Mainwindow.screenWidth / (1920 / 2);
+    std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows());
+    delugeWindows->createWindows("title")->glfwWindow;
+    if((*(delugeWindows->returnMain)) == -1){
+        return -1;
+    }
     // 正方形
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -78,7 +81,7 @@ int main()
     float Rotation[3] = {0.0f, 0.0f, 0.0f};
     float Scale[3] = {1.0f, 1.0f, 1.0f};
     // 6. 主循环
-    while (!glfwWindowShouldClose(Mainwindow.window)){
+    while (!glfwWindowShouldClose(delugeWindows->glfwWindow)){
         glfwPollEvents();
 
         // 开始 ImGui 帧
@@ -91,7 +94,7 @@ int main()
         window_flags |= ImGuiWindowFlags_NoCollapse;
         if (ImGui::Begin("My Window", NULL, window_flags))
         {
-            ImGui::SetWindowFontScale(imGuiFontScale);
+            ImGui::SetWindowFontScale(delugeWindows->imGuiFontScale());
             ImGui::SeparatorText("Transform");
             ImGui::DragFloat3("Position", Position, 0.01f, -1e10, 1e10, "%.2f");
             ImGui::DragFloat3("Rotation", Rotation, 0.1f, -1e10, 1e10, "%.2f");
@@ -114,7 +117,7 @@ int main()
         model = glm::scale(model, glm::vec3(Scale[0], Scale[1], Scale[2]));
         // 设置投影矩阵
         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); // 观察矩阵
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), Mainwindow.windowWidth/Mainwindow.windowHeight, 1.0f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), delugeWindows->screenWidth/delugeWindows->screenHeight, 1.0f, 100.0f);
         // 传递矩阵到着色器
         unsigned int modelLOC = glGetUniformLocation(shader.program, "model");
         unsigned int viewLOC = glGetUniformLocation(shader.program, "view");
@@ -132,12 +135,12 @@ int main()
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         glfwPollEvents();
-        glfwSwapBuffers(Mainwindow.window);
+        glfwSwapBuffers(delugeWindows->glfwWindow);
     }
 
     // 7. 清理资源
     glfwTerminate();
-    // window = nullptr;
+    delugeWindows->glfwWindow = nullptr;
     return 0;
 }
 
