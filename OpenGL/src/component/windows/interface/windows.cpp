@@ -7,6 +7,30 @@ namespace deluge_windows
 {
     namespace deluge_windows_windows
     {
+    //     std::shared_ptr<deluge_windows::deluge_windows_windows::Windows> delugeWindows(new deluge_windows::deluge_windows_windows::Windows());
+    // GLFWwindow* window = delugeWindows->createWindows("title")->glfwWindow;
+    // if((*(delugeWindows->returnMain)) == -1){
+    //     return -1;
+    // }
+    
+    // // 5. 初始化 GLAD（如果是用 GLAD 加载 OpenGL）
+    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    // {
+    //     glfwTerminate();
+    //     return -1;
+    // }
+
+    // IMGUI_CHECKVERSION();
+    // ImGui::CreateContext();
+    // ImGuiIO &io = ImGui::GetIO();
+    // (void)io;
+
+    // // 设置 ImGui 样式（可选）
+    // ImGui::StyleColorsDark();
+
+    // // 绑定 GLFW 和 OpenGL
+    // ImGui_ImplGlfw_InitForOpenGL(window, true);
+    // ImGui_ImplOpenGL3_Init("#version 330");
         Windows::Windows(){
             deluge_control::Control control;
             int test = control.Init();
