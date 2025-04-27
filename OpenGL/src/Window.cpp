@@ -6,7 +6,6 @@
 #include <imgui_impl_opengl3.h>
 #include <stb_image.h>
 #include <spdlog/spdlog.h>
-<<<<<<< Updated upstream
 #include <component/windows/interface/windows.h>
 
 
