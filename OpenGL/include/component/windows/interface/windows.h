@@ -1,8 +1,6 @@
 #pragma once
 #include <component/windows/main/main.h>
 #include <component/windows/control/control.h>
-#include <glad.h>
-#include <GLFW/glfw3.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>

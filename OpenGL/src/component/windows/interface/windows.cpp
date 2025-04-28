@@ -1,12 +1,13 @@
 #include <component/windows/main/main.h>
 #include <component/windows/control/control.h>
 #include <component/windows/interface/windows.h>
-#include <GLFW/glfw3.h>
 #include <spdlog/spdlog.h>
 namespace deluge_windows
 {
     namespace deluge_windows_windows
     {
+        float Windows::screenWidth;
+        float Windows::screenHeight;
         Windows::Windows(){
             deluge_control::Control control;
             int test = control.Init();
@@ -26,8 +27,11 @@ namespace deluge_windows
             if(*(this->returnMain) == -1){
                 return this;
             }
-            this->width = GetSystemMetrics(SM_CXFULLSCREEN);
-            this->height = GetSystemMetrics(SM_CYFULLSCREEN);
+            Windows::screenWidth = GetSystemMetrics(SM_CXFULLSCREEN);
+            Windows::screenHeight = GetSystemMetrics(SM_CYFULLSCREEN);
+            this->width = Windows::screenWidth;
+            this->height = Windows::screenHeight;
+            
             this->title = title;
             this->glfwWindow = glfwCreateWindow(static_cast<int>(width * 0.9), static_cast<int>(height * 0.9), title, NULL, NULL);
             if (!this->glfwWindow)
@@ -96,13 +100,14 @@ namespace deluge_windows
             // 绑定 GLFW 和 OpenGL
             ImGui_ImplGlfw_InitForOpenGL(this->glfwWindow, true);
             ImGui_ImplOpenGL3_Init("#version 330");
+            glfwSetWindowUserPointer(this->glfwWindow, this);
+            glfwSetFramebufferSizeCallback(this->glfwWindow, deluge_control::framebuffer_size_callback); // 暂时先把回调写在这里
             return this;
         }
         float Windows::imGuiFontScale(){
-            return this->screenWidth / (1920 / 2);
+            return this->width / (1920 / 2); // 根据获得的屏幕尺寸调整缩放比例
         }
-        float Windows::screenWidth = 880.0f;
-        float Windows::screenHeight = 660.0f;
+
     } // namespace deluge_windows_windows
 } // namespace deluge_windows
 

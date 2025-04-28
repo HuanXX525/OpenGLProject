@@ -8,7 +8,6 @@
 #include <spdlog/spdlog.h>
 #include <component/windows/interface/windows.h>
 
-
 // const float windowWidth = 800.0f;
 // const float windowHeight = 600.0f;
 int main()
@@ -19,6 +18,7 @@ int main()
     if((*(delugeWindows->returnMain)) == -1){
         return -1;
     }
+    
     // 正方形
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -143,4 +143,3 @@ int main()
     delugeWindows->glfwWindow = nullptr;
     return 0;
 }
-
